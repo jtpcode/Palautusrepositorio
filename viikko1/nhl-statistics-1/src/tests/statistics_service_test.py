@@ -17,10 +17,14 @@ class TestStatisticsService(unittest.TestCase):
     def setUp(self):
         self.stats = StatisticsService(PlayerReaderStub())
 
-    def test_search_hakee_pelaajaolion(self):
-        self.assertEqual(isinstance(self.stats.search("Semenko"), Player), True)
+    def test_search_hakee_oikean_pelaajan(self):
+        self.assertEqual(self.stats.search("Semenko").name, "Semenko")
     
-    def test_search_ei_palauta_olematonta_pelaajaoliota(self):
+    def test_search_ei_palauta_olematonta_pelaajaa(self):
         self.assertEqual(self.stats.search("dingdong"), None)
 
-    
+    def test_team_hakee_oikean_joukkueen_pelaajan(self):
+        self.assertEqual(self.stats.team("PIT")[0].name, "Lemieux")
+
+    def test_top_hakee_oikean_pisteporssin_johtajan(self):
+        self.assertEqual(self.stats.top(1)[0].name, "Gretzky")
