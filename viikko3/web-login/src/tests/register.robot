@@ -49,6 +49,31 @@ Register With Username That Is Already In Use
     Submit Credentials
     Register Should Fail With Message  Username already exists
 
+Login After Successful Registration
+    Set Username  ville
+    Set Password  ville123
+    Set Password Confirmation  ville123
+    Submit Credentials
+    Register Should Succeed
+    Continue To Main Page
+    Logout
+    Set Username  ville
+    Set Password  ville123
+    Login
+    Login Should Succeed
+
+Login After Failed Registration
+    Set Username  ville
+    Set Password  ville12
+    Set Password Confirmation  ville12
+    Submit Credentials
+    Register Should Fail With Message  Length of password must be at least 8
+    Login Link
+    Set Username  ville
+    Set Password  ville12
+    Login
+    Login Should Fail With Message  Invalid username or password
+
 *** Keywords ***
 
 Set Username
@@ -72,6 +97,26 @@ Register Should Succeed
 Register Should Fail With Message
     [Arguments]  ${message}
     Register Page Should Be Open
+    Page Should Contain  ${message}
+
+Continue To Main Page
+    Click Link   Continue to main page
+
+Logout
+    Click Button  Logout
+
+Login
+    Click Button  Login
+
+Login Link
+    Click Link  Login
+
+Login Should Succeed
+    Main Page Should Be Open
+
+Login Should Fail With Message
+    [Arguments]  ${message}
+    Login Page Should Be Open
     Page Should Contain  ${message}
 
 Reset Application Create User And Go To Register Page
